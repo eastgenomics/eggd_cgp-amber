@@ -30,10 +30,14 @@ main() {
     wait "${pid_jar}"   || { echo "ERROR: failed to download amber_jar"      >&2; exit 1; }
     wait "${pid_sites}" || { echo "ERROR: failed to download germline_sites" >&2; exit 1; }
 
-    # Verify BAM has chr-prefixed contigs (AMBER GRCh38 loci require chr prefix)
+    # Verify all chr-expected inputs have chr-prefixed contigs (GRCh38)
     # (use > /dev/null not grep -q to avoid SIGPIPE under set -o pipefail)
     if ! samtools view -H tumour.bam | grep '^@SQ.*SN:chr' > /dev/null; then
-        echo "ERROR: tumour BAM does not have chr-prefixed contigs — expected GRCh38 with 'chr' prefix" >&2
+        echo "ERROR: tumour_bam does not have chr-prefixed contigs — expected GRCh38 with 'chr' prefix" >&2
+        exit 1
+    fi
+    if ! zcat germline_sites.tsv.gz | grep '^chr[0-9XY]' > /dev/null; then
+        echo "ERROR: germline_sites does not have chr-prefixed contigs — expected GRCh38 with 'chr' prefix" >&2
         exit 1
     fi
 
