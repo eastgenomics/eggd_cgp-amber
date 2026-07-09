@@ -21,16 +21,26 @@ main() {
     samtools --version 2>&1 | sed -n '1p'
 
     echo "[1/4] Downloading inputs..."
-    dx download "${tumour_bam}"     -o tumour.bam
-    dx download "${tumour_bai}"     -o tumour.bam.bai
-    dx download "${amber_jar}"      -o amber.jar
-    dx download "${germline_sites}" -o germline_sites.tsv.gz
+    dx download "${tumour_bam}"     -o tumour.bam     &
+    dx download "${tumour_bai}"     -o tumour.bam.bai &
+    dx download "${amber_jar}"      -o amber.jar      &
+    dx download "${germline_sites}" -o germline_sites.tsv.gz &
+    wait
+
+    # Verify BAM has chr-prefixed contigs (AMBER GRCh38 loci require chr prefix)
+    if ! samtools view -H tumour.bam | grep -q '^@SQ.*SN:chr'; then
+        echo "ERROR: tumour BAM does not have chr-prefixed contigs — expected GRCh38 with 'chr' prefix" >&2
+        exit 1
+    fi
 
     # ── 2. Run AMBER ────────────────────────────────────────────────────────
     echo "[2/4] Running AMBER..."
     mkdir -p "${sample_id}"
 
-    java -Xmx6G -jar amber.jar \
+    # Derive JVM heap from available RAM, leaving ~2 GiB headroom
+    HEAP_MB=$(( $(awk '/MemTotal/{print $2}' /proc/meminfo) / 1024 - 2048 ))
+
+    java -Xmx${HEAP_MB}m -jar amber.jar \
         -tumor             "${sample_id}" \
         -tumor_bam         tumour.bam \
         -loci              germline_sites.tsv.gz \
@@ -49,6 +59,7 @@ main() {
 
     SITES=$(zcat "${BAF_FILE}" | tail -n +2 | wc -l)
     echo "BAF sites: ${SITES}"
+    [[ "${SITES}" -gt 0 ]] || { echo "ERROR: AMBER produced zero BAF sites — check loci file and BAM compatibility"; exit 1; }
     ls -lh "${sample_id}/"
 
     # ── 4. Tar and upload ──────────────────────────────────────────────────

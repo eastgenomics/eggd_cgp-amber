@@ -1,6 +1,6 @@
 # eggd_cgp-amber
 
-AMBER (Hartwig Medical Foundation, v4.3-beta.4) tumour-only B-allele-frequency (BAF) caller,
+[AMBER](https://github.com/hartwigmedical/hmftools/tree/master/amber) (Hartwig Medical Foundation, v4.3-beta.4) tumour-only B-allele-frequency (BAF) caller,
 packaged as a DNAnexus app. It is **stage 2** (parallel with COBALT/SAGE) of the
 [`eggd_atlas_cnv`](https://github.com/eastgenomics/eggd_atlas_cnv) somatic CNV workflow: it
 measures BAF at germline heterozygous sites, which PURPLE later uses to fit purity/ploidy and
@@ -39,7 +39,6 @@ dx run eggd_cgp-amber \
 
 - Tumour-only (`-ref_sample_count` not applicable); `-tumor_min_depth 10`,
   `-bam_validation LENIENT`, `-ref_genome_version 38`.
-- Instance `mem1_ssd1_v2_x4`; timeout 6 h.
 - System deps come from `execDepends` (no run-time `apt-get`).
 
 See the versioned build/validation documentation in the CUH Bioinformatics Documentation Vault.
