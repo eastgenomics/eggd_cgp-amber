@@ -7,14 +7,38 @@
   "developers": ["org-emee_1"],
   "authorizedUsers": ["org-emee_1"],
   "inputSpec": [
-    {"name": "tumour_bam",       "class": "file",   "label": "Tumour BAM (chr-prefix)"},
-    {"name": "tumour_bai",       "class": "file",   "label": "Tumour BAM index"},
-    {"name": "sample_id",        "class": "string", "label": "Sample ID"},
-    {"name": "amber_jar",        "class": "file",   "label": "AMBER JAR"},
-    {"name": "germline_sites",   "class": "file",   "label": "AmberGermlineSites.38.tsv.gz (chr)"}
+    {
+      "name": "tumour_bam",
+      "class": "file",
+      "label": "Tumour BAM (chr-prefix, GRCh38)"
+    },
+    {
+      "name": "tumour_bai",
+      "class": "file",
+      "label": "Tumour BAM index"
+    },
+    {
+      "name": "sample_id",
+      "class": "string",
+      "label": "Sample ID"
+    },
+    {
+      "name": "amber_jar",
+      "class": "file",
+      "label": "AMBER JAR"
+    },
+    {
+      "name": "germline_sites",
+      "class": "file",
+      "label": "AmberGermlineSites.38.tsv.gz (chr-prefix, GRCh38)"
+    }
   ],
   "outputSpec": [
-    {"name": "amber_tar", "class": "file", "label": "AMBER output directory (.amber.tar.gz)"}
+    {
+      "name": "amber_tar",
+      "class": "file",
+      "label": "AMBER output directory (.amber.tar.gz)"
+    }
   ],
   "runSpec": {
     "interpreter": "bash",
@@ -24,9 +48,18 @@
     "version": "0",
     "timeoutPolicy": {"*": {"hours": 6}},
     "execDepends": [
-      {"name": "openjdk-21-jre-headless", "package_manager": "apt"},
-      {"name": "samtools",                "package_manager": "apt"},
-      {"name": "tabix",                   "package_manager": "apt"}
+      {
+        "name": "openjdk-21-jre-headless",
+        "package_manager": "apt"
+      },
+      {
+        "name": "samtools",
+        "package_manager": "apt"
+      },
+      {
+        "name": "tabix",
+        "package_manager": "apt"
+      }
     ],
     "systemRequirements": {
       "*": {"instanceType": "mem1_ssd1_v2_x4"}

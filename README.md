@@ -37,6 +37,7 @@ dx run eggd_cgp-amber \
 
 ## Notes
 
+- **GRCh38 only**: `tumour_bam` and `germline_sites` must use GRCh38 (`chr`-prefixed contigs); the app passes `-ref_genome_version 38` to AMBER and will fail the pre-flight chr check if the BAM lacks `chr`-prefixed contigs.
 - Tumour-only (`-ref_sample_count` not applicable); `-tumor_min_depth 10`,
   `-bam_validation LENIENT`, `-ref_genome_version 38`.
 - System deps come from `execDepends` (no run-time `apt-get`).

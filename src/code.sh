@@ -21,14 +21,18 @@ main() {
     samtools --version 2>&1 | sed -n '1p'
 
     echo "[1/4] Downloading inputs..."
-    dx download "${tumour_bam}"     -o tumour.bam     &
-    dx download "${tumour_bai}"     -o tumour.bam.bai &
-    dx download "${amber_jar}"      -o amber.jar      &
-    dx download "${germline_sites}" -o germline_sites.tsv.gz &
-    wait
+    dx download "${tumour_bam}"     -o tumour.bam                  & pid_bam=$!
+    dx download "${tumour_bai}"     -o tumour.bam.bai              & pid_bai=$!
+    dx download "${amber_jar}"      -o amber.jar                   & pid_jar=$!
+    dx download "${germline_sites}" -o germline_sites.tsv.gz       & pid_sites=$!
+    wait "${pid_bam}"   || { echo "ERROR: failed to download tumour_bam"     >&2; exit 1; }
+    wait "${pid_bai}"   || { echo "ERROR: failed to download tumour_bai"     >&2; exit 1; }
+    wait "${pid_jar}"   || { echo "ERROR: failed to download amber_jar"      >&2; exit 1; }
+    wait "${pid_sites}" || { echo "ERROR: failed to download germline_sites" >&2; exit 1; }
 
     # Verify BAM has chr-prefixed contigs (AMBER GRCh38 loci require chr prefix)
-    if ! samtools view -H tumour.bam | grep -q '^@SQ.*SN:chr'; then
+    # (use > /dev/null not grep -q to avoid SIGPIPE under set -o pipefail)
+    if ! samtools view -H tumour.bam | grep '^@SQ.*SN:chr' > /dev/null; then
         echo "ERROR: tumour BAM does not have chr-prefixed contigs — expected GRCh38 with 'chr' prefix" >&2
         exit 1
     fi
