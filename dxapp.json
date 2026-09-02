@@ -47,6 +47,7 @@
     "release": "24.04",
     "version": "0",
     "timeoutPolicy": {"*": {"hours": 6}},
+    "headJobOnDemand": false,
     "execDepends": [
       {
         "name": "openjdk-21-jre-headless",
@@ -65,5 +66,6 @@
       "*": {"instanceType": "mem1_ssd1_v2_x4"}
     }
   },
-  "regionalOptions": {"aws:eu-central-1": {}}
+  "regionalOptions": {"aws:eu-central-1": {}},
+    "ignoreReuse": false
 }
