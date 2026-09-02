@@ -1,6 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+Fix: runSpec.execDepends declares openjdk-21-jre-headless, samtools, and tabix, which are resolved from an apt mirror at job start. execDepends was replaced with assetDepends to prevent failures if the mirror is unreachable.
+
 ## 1.0.0
+
 Initial app release. Converted from the `cnv-backbone-purple-atlas` `cgp-amber` **applet**
 into a versioned, namespaced DNAnexus **app** (`org-emee_1`, `aws:eu-central-1`) for the
 `eggd_atlas_cnv` somatic CNV workflow.
