@@ -48,18 +48,16 @@
     "version": "0",
     "timeoutPolicy": {"*": {"hours": 6}},
     "headJobOnDemand": false,
-    "execDepends": [
+    "assetDepends": [
       {
         "name": "openjdk-21-jre-headless",
-        "package_manager": "apt"
+        "version": "21",
+        "id": "record-J9zVB3Q4p63ZKPgKqg98JYzj"
       },
       {
-        "name": "samtools",
-        "package_manager": "apt"
-      },
-      {
-        "name": "tabix",
-        "package_manager": "apt"
+        "name": "htslib_suite_asset",
+        "version": "1.24",
+        "id": "record-J9QzZyj487v9Gj2QgP7vK47g"
       }
     ],
     "systemRequirements": {
