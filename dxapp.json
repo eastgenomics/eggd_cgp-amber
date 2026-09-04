@@ -2,7 +2,7 @@
   "name": "eggd_cgp-amber",
   "title": "eggd_cgp-amber",
   "summary": "AMBER 4.3-beta.4 tumour-only BAF at germline het-SNP sites",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dxapi": "1.0.0",
   "developers": ["org-emee_1"],
   "authorizedUsers": ["org-emee_1"],
@@ -47,23 +47,23 @@
     "release": "24.04",
     "version": "0",
     "timeoutPolicy": {"*": {"hours": 6}},
-    "execDepends": [
+    "headJobOnDemand": false,
+    "assetDepends": [
       {
         "name": "openjdk-21-jre-headless",
-        "package_manager": "apt"
+        "version": "21",
+        "id": "record-J9zVB3Q4p63ZKPgKqg98JYzj"
       },
       {
-        "name": "samtools",
-        "package_manager": "apt"
-      },
-      {
-        "name": "tabix",
-        "package_manager": "apt"
+        "name": "htslib_suite_asset",
+        "version": "1.24",
+        "id": "record-J9QzZyj487v9Gj2QgP7vK47g"
       }
     ],
     "systemRequirements": {
       "*": {"instanceType": "mem1_ssd1_v2_x4"}
     }
   },
-  "regionalOptions": {"aws:eu-central-1": {}}
+  "regionalOptions": {"aws:eu-central-1": {}},
+    "ignoreReuse": false
 }
