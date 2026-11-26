@@ -1,6 +1,6 @@
 #!/bin/bash
 # eggd_cgp-amber v1.0.0 — AMBER 4.3-beta.4 tumour-only BAF
-# Converted from cgp-amber applet: metadata + timeoutPolicy + execDepends.
+# Converted from cgp-amber applet: metadata + timeoutPolicy + assetDepends.
 # Tool flags and output names are FROZEN (downstream links depend on them).
 set -euo pipefail
 
@@ -16,7 +16,7 @@ main() {
     echo "====================================================="
 
     # ── 1. Download inputs ──────────────────────────────────────────────────
-    # (system deps come from execDepends — no run-time apt-get)
+    # (system deps come from assetDepends — no run-time apt-get)
     java     -version  2>&1 | sed -n '1p'
     samtools --version 2>&1 | sed -n '1p'
 
